@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        background: black;
+        color: white;
+      }
+      div.container {
+        max-width: 500px;
+        margin: 100px auto;
+        border: 20px solid white;
+        padding: 10px;
+        text-align: center;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      h4 {
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h4>Cat Gif of the day</h4>
+      <img src="{{ . }}" />
+      <p>
+        <small
+          >Courtesy:
+          <a
+            href="https://www.buzzfeed.com/mireyagonzalez/cats-doing-whatever-they-want-2019?utm_source=dynamic&utm_campaign=bfsharecopy&sub=0_122637559#122637559"
+          >
+            Buzzfeed
+          </a>
+        </small>
+      </p>
+    </div>
+  </body>
+</html>
