@@ -17,12 +17,13 @@ variable "environment" {
 
 variable "az_count" {
   description = "Number of AZs to cover in a given region"
-  default     = "1"
+  type        = number
+  default     = 2
 }
 
 variable "app_name" {
   type    = string
-  default = "test"
+  default = "goapp"
 }
 
 variable "app_port" {
@@ -32,7 +33,7 @@ variable "app_port" {
 
 variable "app_count" {
   type    = number
-  default = 1
+  default = 2
 }
 
 variable "app_image" {

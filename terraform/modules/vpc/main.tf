@@ -4,7 +4,7 @@ data "aws_availability_zones" "available" {
 resource "aws_vpc" "main" {
   cidr_block = var.cidr
 
-  tags = { Name = "${var.environment}-VPC" }
+  tags = { Name = "${var.app_name}-${var.environment}-VPC" }
 }
 
 resource "aws_subnet" "public" {
@@ -15,7 +15,7 @@ resource "aws_subnet" "public" {
 
   map_public_ip_on_launch = true
 
-  tags = { Name = "${var.environment}-public-${count.index + 1}" }
+  tags = { Name = "${var.app_name}-${var.environment}-public-${count.index + 1}" }
 }
 
 resource "aws_subnet" "private" {
@@ -24,13 +24,13 @@ resource "aws_subnet" "private" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
   vpc_id            = aws_vpc.main.id
 
-  tags = { Name = "${var.environment}-privet-${count.index + 1}" }
+  tags = { Name = "${var.app_name}-${var.environment}-privet-${count.index + 1}" }
 }
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
-  tags = { Name = "${var.environment}-gw" }
+  tags = { Name = "${var.app_name}-${var.environment}-gw" }
 }
 
 resource "aws_route" "internet_access" {
@@ -44,7 +44,7 @@ resource "aws_eip" "gw" {
   vpc        = true
   depends_on = [aws_internet_gateway.gw]
 
-  tags = { Name = "${var.environment}-EIP" }
+  tags = { Name = "${var.app_name}-${var.environment}-EIP" }
 }
 
 resource "aws_nat_gateway" "gw" {
@@ -52,7 +52,7 @@ resource "aws_nat_gateway" "gw" {
   subnet_id     = element(aws_subnet.public.*.id, count.index)
   allocation_id = element(aws_eip.gw.*.id, count.index)
 
-  tags = { Name = "${var.environment}-GW" }
+  tags = { Name = "${var.app_name}-${var.environment}-GW" }
 }
 
 resource "aws_route_table" "private" {
@@ -64,7 +64,7 @@ resource "aws_route_table" "private" {
     nat_gateway_id = element(aws_nat_gateway.gw.*.id, count.index)
   }
 
-  tags = { Name = "${var.environment}-RT" }
+  tags = { Name = "${var.app_name}-${var.environment}-RT" }
 }
 
 resource "aws_route_table_association" "private" {

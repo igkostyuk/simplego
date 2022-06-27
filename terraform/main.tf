@@ -6,8 +6,9 @@ module "vpc" {
   source = "./modules/vpc"
 
   cidr        = var.cidr
-  environment = var.environment
   az_count    = var.az_count
+  app_name    = var.app_name
+  environment = var.environment
 }
 
 module "alb" {
@@ -28,7 +29,7 @@ module "ecs" {
   private_subnets = module.vpc.private_subnets
 
   environment = var.environment
-  app_image   = "fix"
+  app_image   = var.app_image
   app_name    = var.app_name
   app_port    = var.app_port
   app_count   = var.app_count
