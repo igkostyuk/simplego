@@ -20,6 +20,8 @@ module "alb" {
   environment = var.environment
   app_name    = var.app_name
   app_port    = var.app_port
+
+  depends_on = [module.vpc]
 }
 
 module "ecs" {
@@ -36,4 +38,6 @@ module "ecs" {
 
   alb_security_group_id = module.alb.alb_security_group_id
   alb_target_group_id   = module.alb.alb_target_group_id
+
+  depends_on = [module.alb]
 }
