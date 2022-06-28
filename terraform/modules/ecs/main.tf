@@ -2,6 +2,8 @@ resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-${var.environment}-cluster"
 }
 
+data "aws_iam_role" "task_role" { name = "ecsTaskExecutionRole" }
+
 data "template_file" "app" {
   template = file("${path.module}/app.json.tpl")
 
@@ -17,8 +19,8 @@ data "template_file" "app" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family = "${var.app_name}-${var.environment}-task"
-  # execution_role_arn       = var.ecs_task_execution_role_arn
+  family             = "${var.app_name}-${var.environment}-task"
+  execution_role_arn = data.aws_iam_role.task_role.arn
   # task_role_arn            = var.ecs_task_role_arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
