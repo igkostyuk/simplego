@@ -2,26 +2,15 @@ version: 0.2
 
 env:
   variables:
-    CI: "true"
     REPOSITORY_REGION: "us-east-1"
     ENV: "dev"
     APP_NAME: "goapp"
-    TERRAFORM_VERSION: "4.21.0"
     
 phases:
   pre_build:
     commands:
-      - curl -sSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o terraform.zip
-      - unzip terraform.zip -d /usr/local/bin && chmod +x /usr/local/bin/terraform
-      - export REGISTRY_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
-      - export REPO_NAME="${REGISTRY_ID}.dkr.ecr.${REPOSITORY_REGION}.amazonaws.com/${APP_NAME}-${ENV}"
-      - pip install jq
-      - echo "Getting existing tag"
-      - export SERVICE_ARN=$(aws ecs list-services --cluster ${APP_NAME}-${ENV}-cluster | jq -r .serviceArns[])
-      - export TASKDEF_ARN=$(aws ecs describe-services --cluster ${APP_NAME}-${ENV}-cluster --service ${SERVICE_ARN} | jq -r .services[].taskDefinition)
-      - export EXISTING_TAG=$(aws ecs describe-task-definition --task-definition ${TASKDEF_ARN} | jq -r .taskDefinition.containerDefinitions[].image | tr ':' ' ' | awk '{print $2}')
-      - echo "Current version is ${EXISTING_TAG}"
       
   build:
     commands:
       - echo "Build and push docker images"
+      - go version
