@@ -16,3 +16,6 @@ phases:
       - echo "Build and push docker images"
       - go version
       - make ci
+      - export TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION}-${ENV}"
+      - echo "Building version ${TAG}"
+      - make push-ecr
