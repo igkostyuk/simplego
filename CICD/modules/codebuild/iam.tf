@@ -138,7 +138,10 @@ resource "aws_iam_role_policy" "role_policy" {
         "ec2:DescribeAddresses",
         "ec2:AllocateAddress",
         "ec2:DescribeInstances",
-        "ec2:AssociateAddress"
+        "ec2:AssociateAddress",
+        "ec2:DescribeNatGateways",
+        "ec2:CreateNatGateway",
+        "ec2:DeleteNatGateway"
       ],
       "Resource": "*"
     },
