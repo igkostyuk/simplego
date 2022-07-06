@@ -23,4 +23,4 @@ phases:
       - echo "Building version ${TAG}"
       - cd terraform
       - terraform init
-      - terraform plan
+      - terraform plan -var="image_tag=${TAG}" -no-color -input=false -out plan.out
