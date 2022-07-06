@@ -10,6 +10,8 @@ phases:
   pre_build:
     commands:
       - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.46.2
+      - curl -sSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o terraform.zip
+      - unzip terraform.zip -d /usr/local/bin && chmod +x /usr/local/bin/terraform
       
   build:
     commands:
@@ -18,4 +20,4 @@ phases:
       - make ci
       - export TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION}-${ENV}"
       - echo "Building version ${TAG}"
-      - make push-ecr
+      - terraform version
