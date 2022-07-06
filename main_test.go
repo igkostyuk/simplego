@@ -2,7 +2,7 @@ package main
 
 import (
 	"html/template"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -35,7 +35,7 @@ func Test_templateHandler(t *testing.T) {
 
 			require.Equal(t, tt.code, resp.StatusCode, "HTTP status code")
 			if resp.StatusCode == http.StatusOK {
-				body, err := io.ReadAll(resp.Body)
+				body, err := ioutil.ReadAll(resp.Body)
 				require.NoError(t, err, "failed to read HTTP body")
 				assert.Contains(t, string(body), url)
 			}
