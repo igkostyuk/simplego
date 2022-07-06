@@ -21,4 +21,5 @@ phases:
       - make ci
       - export TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION}-${ENV}"
       - echo "Building version ${TAG}"
-      - terraform version
+      - cd terraform
+      - terraform plan
