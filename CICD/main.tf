@@ -1,14 +1,10 @@
-resource "aws_vpc" "main" {
-  cidr_block = var.cidr
-
-  tags = { Name = "${var.app_name}-${var.environment}-VPC" }
+resource "aws_ecr_repository" "ecr_repository" {
+  name = "${var.app_name}-${var.environment}"
 }
 
 module "codebuild" {
 
   source = "./modules/codebuild"
-
-  vpc_id = aws_vpc.main.id
 
   environment = var.environment
   app_name    = var.app_name

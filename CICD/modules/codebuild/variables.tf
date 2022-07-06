@@ -4,7 +4,6 @@ variable "environment" { type = string }
 
 variable "region" { description = "aws region" }
 
-variable "vpc_id" { type = string }
 
 variable "subnets" {
   type        = list(string)
