@@ -134,7 +134,11 @@ resource "aws_iam_role_policy" "role_policy" {
         "ec2:DescribeTags",
         "ec2:DescribeSubnets",
         "ec2:DescribeSecurityGroups",
-        "ec2:DescribeVpcs"
+        "ec2:DescribeVpcs",
+        "ec2:DescribeAddresses",
+        "ec2:AllocateAddress",
+        "ec2:DescribeInstances",
+        "ec2:AssociateAddress"
       ],
       "Resource": "*"
     },
