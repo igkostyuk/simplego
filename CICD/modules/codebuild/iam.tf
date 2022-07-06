@@ -36,6 +36,10 @@ resource "aws_iam_role_policy" "role_policy" {
     {
       "Effect": "Allow",
       "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
         "iam:GetRole",
         "iam:GetRolePolicy",
         "iam:PassRole",
@@ -43,6 +47,16 @@ resource "aws_iam_role_policy" "role_policy" {
         "iam:ListRolePolicies"
       ],
       "Resource": "arn:aws:iam::*:role/*"
+    },
+    {
+      "Action": "iam:CreateServiceLinkedRole",
+      "Effect": "Allow",
+      "Resource": "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS",
+      "Condition": {
+        "StringLike": {
+          "iam:AWSServiceName":"rds.amazonaws.com"
+        }
+      }
     },
     {
       "Effect": "Allow",
@@ -100,6 +114,44 @@ resource "aws_iam_role_policy" "role_policy" {
         "dynamodb:*" 
       ],
       "Resource": "*" 
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:CreateSecurityGroup",
+        "ec2:DeleteSecurityGroup",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:DeleteNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeDhcpOptions",
+        "ec2:CreateTags",
+        "ec2:DeleteTags",
+        "ec2:DescribeTags",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeVpcs"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateNetworkInterfacePermission"
+      ],
+      "Resource": "arn:aws:ec2:${var.region}:*:network-interface/*",
+      "Condition": {
+        "StringLike": {
+          "ec2:Subnet": [
+            "arn:aws:ec2:${var.region}:*:subnet/*"
+          ],
+          "ec2:AuthorizedService": "codebuild.amazonaws.com"
+        }
+      }
     }
   ]
 }
