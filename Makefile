@@ -75,7 +75,7 @@ tidy: ## Run go mod tidy
 	done
 
 .PHONY: ci
-ci: test lint tidy
+ci: test tidy
 
 .PHONY: push-ecr
 push-ecr: ## Push image to ecr 
