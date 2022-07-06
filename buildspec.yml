@@ -22,4 +22,5 @@ phases:
       - export TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION}-${ENV}"
       - echo "Building version ${TAG}"
       - cd terraform
+      - terraform init
       - terraform plan
