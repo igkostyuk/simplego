@@ -5,6 +5,7 @@ env:
     REPOSITORY_REGION: "us-east-1"
     ENV: "dev"
     APP_NAME: "goapp"
+    TERRAFORM_VERSION: "1.2.4"
     
 phases:
   pre_build:
