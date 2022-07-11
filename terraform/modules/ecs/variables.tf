@@ -20,13 +20,11 @@ variable "alb_target_group_id" { type = string }
 
 
 variable "fargate_cpu" {
-  type    = string
-  default = "512"
+  default = 512
 }
 
 variable "fargate_memory" {
-  type    = string
-  default = "1024"
+  default = 1024
 }
 
 variable "image_tag" {
