@@ -33,7 +33,7 @@ variable "app_port" {
 
 variable "app_count" {
   type    = number
-  default = 2
+  default = 4
 }
 
 variable "image_repo" {
