@@ -36,7 +36,12 @@ variable "app_count" {
   default = 2
 }
 
-variable "app_image" {
+variable "image_repo" {
   type    = string
-  default = "718206584555.dkr.ecr.us-east-1.amazonaws.com/goapp-dev:latest"
+  default = "718206584555.dkr.ecr.us-east-1.amazonaws.com/goapp-dev"
+}
+
+variable "image_tag" {
+  type    = string
+  default = "latest"
 }

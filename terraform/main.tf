@@ -31,10 +31,11 @@ module "ecs" {
   private_subnets = module.vpc.private_subnets
 
   environment = var.environment
-  app_image   = var.app_image
   app_name    = var.app_name
   app_port    = var.app_port
   app_count   = var.app_count
+  image_repo  = var.image_repo
+  image_tag   = var.image_tag
 
   alb_security_group_id = module.alb.alb_security_group_id
   alb_target_group_id   = module.alb.alb_target_group_id

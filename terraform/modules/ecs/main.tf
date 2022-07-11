@@ -15,7 +15,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name        = "${var.app_name}-${var.environment}-app"
-      image       = var.app_image
+      image       = "${var.image_repo}:${var.image_tag}"
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"

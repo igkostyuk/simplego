@@ -4,14 +4,15 @@ variable "private_subnets" {}
 
 variable "environment" { type = string }
 
-
-variable "app_image" { type = string }
-
 variable "app_name" { type = string }
 
 variable "app_port" { type = number }
 
 variable "app_count" { type = number }
+
+variable "image_repo" { type = string }
+
+variable "image_tag" { type = string }
 
 
 variable "alb_security_group_id" { type = string }
@@ -25,9 +26,4 @@ variable "fargate_cpu" {
 
 variable "fargate_memory" {
   default = 1024
-}
-
-variable "image_tag" {
-  type    = string
-  default = "0.0.1"
 }
