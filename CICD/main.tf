@@ -2,6 +2,14 @@ resource "aws_ecr_repository" "ecr_repository" {
   name = "${var.app_name}-${var.environment}"
 }
 
+resource "aws_ecr_repository" "ecr_alpine" {
+  name = "alpine"
+}
+
+resource "aws_ecr_repository" "ecr_go" {
+  name = "golang"
+}
+
 module "codebuild" {
 
   source = "./modules/codebuild"
