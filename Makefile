@@ -10,6 +10,9 @@ REPOSITORY_REGION ?= us-east-1
 APP_NAME ?= goapp
 ENV_NAME ?= dev
 REPO_NAME = $(REGISTRY_ID).dkr.ecr.$(REPOSITORY_REGION).amazonaws.com/${APP_NAME}-${ENV_NAME}
+GO_REPO_NAME = $(REGISTRY_ID).dkr.ecr.$(REPOSITORY_REGION).amazonaws.com/golang
+ALPINE_REPO_NAME = $(REGISTRY_ID).dkr.ecr.$(REPOSITORY_REGION).amazonaws.com/alpine
+ALPINE_VERSION = 3.16
 
 .DEFAULT_GOAL := help
 
@@ -86,3 +89,18 @@ push-ecr: ## Push image to ecr
 .PHONY: docker-login
 docker-login: ## Login to ecr
 	aws ecr get-login-password --region $(REPOSITORY_REGION) | docker login --username AWS --password-stdin $(REGISTRY_ID).dkr.ecr.$(REPOSITORY_REGION).amazonaws.com
+
+.PHONY: push-go-ecr
+push-go-ecr: ## Push golang image to ecr 
+	$(MAKE) docker-login
+	docker tag golang:1.17.11-alpine$(ALPINE_VERSION) $(GO_REPO_NAME):1.17.11-alpine$(ALPINE_VERSION)
+	docker push $(GO_REPO_NAME):1.17.11-alpine$(ALPINE_VERSION)
+
+.PHONY: push-alpine-ecr
+push-alpine-ecr: ## Push alpine image to ecr 
+	$(MAKE) docker-login
+	docker tag alpine:$(ALPINE_VERSION) $(ALPINE_REPO_NAME):$(ALPINE_VERSION)
+	docker push $(ALPINE_REPO_NAME):$(ALPINE_VERSION)	
+
+.PHONY: push-init-images
+push-init-images: push-go-ecr push-alpine-ecr push-ecr

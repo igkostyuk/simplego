@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "ecr_repository" {
+resource "aws_ecr_repository" "ecr_app" {
   name = "${var.app_name}-${var.environment}"
 }
 
@@ -23,4 +23,12 @@ module "codebuild" {
   github_oauth_token = var.github_oauth_token
   branch_pattern     = var.branch_pattern
 
+}
+
+resource "null_resource" "build" {
+  provisioner "local-exec" {
+    command     = "make push-init-images"
+    working_dir = "../"
+  }
+  depends_on = [aws_ecr_repository.ecr_go, aws_ecr_repository.ecr_alpine, aws_ecr_repository.ecr_app]
 }
