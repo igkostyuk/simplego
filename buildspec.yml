@@ -5,12 +5,12 @@ env:
     REPOSITORY_REGION: "us-east-1"
     ENV: "dev"
     APP_NAME: "goapp"
+    APP_COUNT: 2
     TERRAFORM_VERSION: "1.2.4"
     
 phases:
   pre_build:
     commands:
-      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.46.2
       - curl -sSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o terraform.zip
       - unzip terraform.zip -d /usr/local/bin && chmod +x /usr/local/bin/terraform
       - export REGISTRY_ID=`aws sts get-caller-identity --output text | awk '{print $1}'`
@@ -27,5 +27,5 @@ phases:
       - echo "Build infra"
       - cd terraform
       - terraform init
-      - terraform plan -var="image_tag=${TAG}" -no-color -input=false -out plan.out
+      - terraform plan -var="image_tag=${TAG}" -var="app_count=${APP_COUNT}" -no-color -input=false -out plan.out
       - terraform apply -auto-approve -no-color -input=false plan.out
